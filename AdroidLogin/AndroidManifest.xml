@@ -22,11 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="BoadList">
+        <activity android:name="ProjectListActivity">
             <intent-filter>
-            	<action android:name="android.intent.action.boardlist" />
-            	<category android:name="android.intent.category.DEFAULT"/>            	    
-            </intent-filter>            
+                <action android:name="android.intent.action.ProjectList" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
