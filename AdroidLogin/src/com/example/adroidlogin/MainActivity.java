@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
 					if(message.equals("1")){
 						Toast.makeText(getApplicationContext(), "다음 액티비티로...", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent("android.intent.action.ProjectList");
+						intent.putExtra("id", un.getText().toString());
 						startActivity(intent);
 					}else if(message.equals("0")){						
 						AlertDialog.Builder aDialog = new AlertDialog.Builder(MainActivity.this);
