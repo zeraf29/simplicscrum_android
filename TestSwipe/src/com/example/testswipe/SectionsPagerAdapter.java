@@ -1,11 +1,12 @@
 package com.example.testswipe;
 
-import com.example.testswipe.cardlist.CardListFragment;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import com.example.testswipe.cardlist.DoingFragment;
+import com.example.testswipe.cardlist.DoneFragment;
+import com.example.testswipe.cardlist.ToDoFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter{
 	Context mContext;
@@ -23,13 +24,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter{
 		switch(arg0){
 			case 0:
 				//return null;
-				return new CardListFragment(mContext);
+				return new ToDoFragment(mContext);
 			case 1:
 				//return null; 
-				return new CardListFragment(mContext);	//별도의 Fragment를 만들어야함.(Doing의 list를 받을 같은 내용의 Fragment)
+				return new DoingFragment(mContext);	
 			case 2:
 				//return null;
-				return new CardListFragment(mContext);	//별도의 Fragment를 만들어야함.(Done의 list를 받을 같은 내용의 Fragment)
+				return new DoneFragment(mContext);	
 		}
 		return null;
 	}

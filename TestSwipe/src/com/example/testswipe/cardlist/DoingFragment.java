@@ -2,6 +2,8 @@ package com.example.testswipe.cardlist;
 
 import java.util.ArrayList;
 
+import com.example.testswipe.R;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,14 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.testswipe.R;
-
 @SuppressLint("ValidFragment")
-public class CardListFragment extends Fragment{
+public class DoingFragment extends Fragment {
 	ListView mList;
 	Context mContext;
 	
-	public CardListFragment(Context context){
+	public DoingFragment(Context context){
 		mContext = context;
 	}
 	
@@ -33,13 +33,13 @@ public class CardListFragment extends Fragment{
 	}
 	
 	//테스트용 데이타 값 주입
-	protected ArrayList<Card> createData(){
-		ArrayList<Card> obj = new ArrayList<Card>();
-		obj.add(new Card(0,"test1"));
-		obj.add(new Card(0,"test2"));
-		obj.add(new Card(0,"test3"));
-		obj.add(new Card(0,"test4"));
-		
-		return obj;
-	}
+		protected ArrayList<Card> createData(){
+			ArrayList<Card> obj = new ArrayList<Card>();
+			obj.add(new Card(0,"test5"));
+			obj.add(new Card(2,"test6"));
+			obj.add(new Card(6,"test7"));
+			obj.add(new Card(1,"test8"));
+			
+			return obj;
+		}
 }
