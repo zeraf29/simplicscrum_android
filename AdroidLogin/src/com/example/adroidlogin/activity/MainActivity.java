@@ -1,21 +1,28 @@
-package com.example.adroidlogin;
+package com.example.adroidlogin.activity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.HttpClientParams;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,32 +30,41 @@ import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.adroidlogin.R;
 
 public class MainActivity extends Activity {
 	EditText un,pw;
-	TextView error;
 	Button ok;
 	String message="";
-    @Override
+	String cookieString="";
+	
+    @SuppressLint("NewApi")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
+        CookieSyncManager.createInstance(getApplicationContext());
+        CookieManager.getInstance().removeAllCookie();
+        CookieSyncManager.getInstance().startSync();
+        
         un = (EditText)findViewById(R.id.et_un);
         pw = (EditText)findViewById(R.id.et_pw);
         ok = (Button)findViewById(R.id.btn_login);
-        error = (TextView)findViewById(R.id.tv_error);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().build();
         StrictMode.setThreadPolicy(policy);
         ok.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				HttpClient http = new DefaultHttpClient();
+				DefaultHttpClient http = new DefaultHttpClient();
+				
 				try{
 					ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 					postParameters.add(new BasicNameValuePair("email",un.getText().toString()));
@@ -58,19 +74,34 @@ public class MainActivity extends Activity {
 					HttpConnectionParams.setConnectionTimeout(params, 5000);
 					HttpConnectionParams.setSoTimeout(params, 5000);
 					
+					HttpClientParams.setRedirecting(params, false);
+					
 					HttpPost httpPost = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin");
 					UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(postParameters,"utf-8");
 					httpPost.setEntity(entityRequest);
 					HttpResponse responsePost = http.execute(httpPost);
-					HttpEntity resEntity = responsePost.getEntity();
-					message = EntityUtils.toString(resEntity);
 					
-					if(message.equals("1")){
-						Toast.makeText(getApplicationContext(), "다음 액티비티로...", Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent("android.intent.action.ProjectList");
-						intent.putExtra("id", un.getText().toString());
+					CookieSyncManager.createInstance(getApplicationContext());
+					CookieManager cookieManager = CookieManager.getInstance();
+					List<Cookie> cookies = http.getCookieStore().getCookies();
+					if(!cookies.isEmpty()){
+						for(int i=0;i<cookies.size();i++){
+							cookieString = cookies.get(i).getName() + "="+ cookies.get(i).getValue();	
+							cookieManager.setCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin", cookieString);
+						}
+						//Toast.makeText(getApplicationContext(), cookieManager.getCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin"), Toast.LENGTH_SHORT).show();
+					}
+					
+					InputStream is = null;
+					is = responsePost.getEntity().getContent();
+					
+					message = convertStreamToString(is,getApplicationContext());
+					JSONObject json = new JSONObject(message);
+					String code = json.getString("code");					
+					if(code.equals("100")){						
+						Intent intent = new Intent("android.intent.action.ProjectList");						
 						startActivity(intent);
-					}else if(message.equals("0")){						
+					}else if(code.equals("200")){						
 						AlertDialog.Builder aDialog = new AlertDialog.Builder(MainActivity.this);
 						aDialog.setTitle("로그인실패");
 						aDialog.setMessage("아이디나 비밀번호를 확인해주세요.");
@@ -80,14 +111,14 @@ public class MainActivity extends Activity {
 								// TODO Auto-generated method stub								
 							}
 						});
-						aDialog.show();
-					}
-				}catch(Exception e){e.printStackTrace();}
-			}        	
-        });        
-    }
+						aDialog.show();						
+					}					
+				}catch(Exception e){e.printStackTrace();}				
+			}			   	
+        });				
+    } 
 
-
+   
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -95,4 +126,29 @@ public class MainActivity extends Activity {
         return true;
     }
     
+    public static String convertStreamToString(InputStream is,Context context) 
+    {
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+    	StringBuilder sb = new StringBuilder();
+    	
+    	String line = null;
+    	try {
+    		while ((line = reader.readLine()) != null) {
+    			sb.append(line + "\n");
+    		}
+    	} 
+    	catch (IOException e) {
+    		e.printStackTrace();
+    	} 
+    	finally {
+    		try {
+    			is.close();
+    		} catch (IOException e) {
+				e.printStackTrace();
+    		}
+    	}
+    	//Toast.makeText(context, sb.toString(), Toast.LENGTH_SHORT).show();
+    	
+    	return sb.toString();
+    }
 }

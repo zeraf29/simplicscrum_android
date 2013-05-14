@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="210dip"
-    android:layout_marginTop="10dip"
-    android:background="#DDDDDD"   
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#30AAA9"   
     tools:context=".MainActivity" >
 	<TextView
 	    android:id="@+id/tv_un"
@@ -58,17 +57,5 @@
         android:layout_marginLeft="110dip"
         android:text="login"
         />
-	<TextView
-	    android:id="@+id/tv_error"
-	    android:layout_width="fill_parent"
-	    android:layout_height="40dip"
-	    android:textSize="7pt"
-	    android:layout_alignParentLeft="true"
-	    android:layout_below="@id/btn_login"
-	    android:layout_marginRight="9dip"
-	    android:layout_marginTop="15dip"
-	    android:layout_marginLeft="15dip"
-	    android:textColor="#AA0000"
-	    android:text=""
-	    />
+
 </RelativeLayout>
