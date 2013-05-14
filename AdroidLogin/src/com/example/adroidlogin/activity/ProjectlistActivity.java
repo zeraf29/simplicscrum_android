@@ -12,11 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.adroidlogin.R;
+import com.example.androidlogin.component.Project;
+import com.example.androidlogin.component.ProjectAdapter;
 import com.example.androidlogin.component.UserInfo;
 import com.example.androidlogin.network.LoadProjectNetwork;
 import com.example.androidlogin.network.LoadUserInfoNetwork;
@@ -26,7 +27,7 @@ public class ProjectlistActivity extends Activity /*implements DndListView.DragL
 	//private ArrayList<Project> projects = new ArrayList<Project>();
 	private ListView lv;
 	//private boolean isDnd = false;
-	private ArrayAdapter<String> mAdapter;
+	private ProjectAdapter mAdapter;
 	
 	public ProjectlistActivity(){
 		super();
@@ -39,10 +40,13 @@ public class ProjectlistActivity extends Activity /*implements DndListView.DragL
         setContentView(R.layout.boardlist); 
         
         LoadProjectNetwork net = new LoadProjectNetwork();
-        ArrayList<String> titles = net.ExecuteLoadProject(getApplicationContext());           
+        ArrayList<Project> Plist = net.ExecuteLoadProject(getApplicationContext());           
+        
+       
         
         lv = (ListView) findViewById(R.id.project_list);
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, titles);
+        
+        mAdapter = new ProjectAdapter(this, R.layout.projectcard, Plist);
         lv.setAdapter(mAdapter);
         
         //lstInfoType.setDragListener(this);

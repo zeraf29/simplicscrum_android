@@ -30,9 +30,12 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
+import com.example.androidlogin.component.Project;
+
 public class LoadProjectNetwork {	
-	public ArrayList<String> ExecuteLoadProject(Context Context){
+	public ArrayList<Project> ExecuteLoadProject(Context Context){
 		ArrayList<String> titles = new ArrayList<String>();
+		ArrayList<Project> lists = new ArrayList<Project>();
 		HttpPost post = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/project/getList");
 		DefaultHttpClient client = new DefaultHttpClient();
 		InputStream is = null;
@@ -80,7 +83,7 @@ public class LoadProjectNetwork {
 			message = convertStreamToString(is,Context);
 			JSONObject obj = new JSONObject(message);
 			JSONArray array = obj.getJSONArray("key");
-			Toast.makeText(Context, String.valueOf(array.length()), Toast.LENGTH_SHORT).show();
+			//Toast.makeText(Context, String.valueOf(array.length()), Toast.LENGTH_SHORT).show();
 			ArrayList<String> keylist = new ArrayList<String>();
 			for(int i=0; i<array.length(); i++){
 				keylist.add(String.valueOf(array.getInt(i)));
@@ -95,6 +98,11 @@ public class LoadProjectNetwork {
 			titles = new ArrayList<String>();
 			for(int i=0; i<list.size(); i++){
 				titles.add(list.get(i).getString("title"));
+				Project p = new Project();
+				p.setTitle(list.get(i).getString("title"));
+				p.setDesc(list.get(i).getString("desc"));
+				p.setRlevel(list.get(i).getInt("rlevel"));
+				lists.add(p);
 			}
 			/*
 			BufferedReader bufreader = new BufferedReader(new InputStreamReader(is,"utf-8"));
@@ -109,7 +117,7 @@ public class LoadProjectNetwork {
 			result = obj.getJSONArray("item");	
 			*/
 		}catch(Exception e){e.printStackTrace();}		
-		return titles;
+		return lists;
 		
 	}
 	public static String convertStreamToString(InputStream is,Context context) 
