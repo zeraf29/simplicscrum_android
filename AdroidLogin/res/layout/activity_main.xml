@@ -1,61 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#30AAA9"   
+    android:background="#30AAA9"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
-	<TextView
-	    android:id="@+id/tv_un"
-	    android:layout_width="wrap_content"
-	    android:layout_height="10pt"
-	    android:textSize="9pt"
-	    android:textColor="#444444"
-	    android:layout_alignParentLeft="true"
-	    android:layout_marginRight="9dip"
-	    android:layout_marginTop="20dip"
-	    android:layout_marginLeft="10dip"
-	    android:text="User Name:"
-	    />
-	<EditText
-	    android:id="@+id/et_un"
-	    android:layout_width="200dip"
-	    android:layout_height="wrap_content"
-	    android:background="@android:drawable/editbox_background"
-	    android:layout_toRightOf="@id/tv_un"
-	    android:layout_alignTop="@id/tv_un"
-	    />
-	<TextView
-	    android:id="@+id/tv_pw"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:textSize="9pt"
-	    android:textColor="#444444"
-	    android:layout_alignParentLeft="true"
-	    android:layout_below="@id/tv_un"
-	    android:layout_marginRight="9dip"
-	    android:layout_marginTop="15dip"
-	    android:layout_marginLeft="10dip"
-	    android:text="Password:"
-	    />
-    <EditText
-	    android:id="@+id/et_pw"
-	    android:layout_width="200dip"
-	    android:layout_height="wrap_content"
-	    android:background="@android:drawable/editbox_background"
-	    android:layout_toRightOf="@id/tv_pw"
-	    android:layout_alignTop="@id/tv_pw"
-	    android:layout_marginLeft="16dip"
-	    android:password="true"
-	    />
+
+    <ImageView
+        android:layout_width="120pt"
+        android:layout_height="180pt"
+        android:layout_marginTop="100dip"
+        android:layout_gravity="center"
+        android:src="@drawable/center_logo" />
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_pw"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="15dip"
-        android:layout_marginLeft="110dip"
-        android:text="login"
-        />
+        android:layout_gravity="center"
+        android:paddingBottom="20dip"
+        android:text="login" />
 
-</RelativeLayout>
+</LinearLayout>

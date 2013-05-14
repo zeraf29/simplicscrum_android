@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.adroidlogin.activity.ProjectlistActivity">
+        <activity 
+            android:name="com.example.adroidlogin.activity.ProjectlistActivity"
+            android:label="Project List">
             <intent-filter>
                 <action android:name="android.intent.action.ProjectList" />
 				<!-- asdfaf -->
