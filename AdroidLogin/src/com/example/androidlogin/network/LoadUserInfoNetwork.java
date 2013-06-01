@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -22,20 +20,16 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import com.example.androidlogin.component.UserInfo;
 
-import com.example.androidlogin.component.Project;
-
-public class LoadProjectNetwork {	
-	public ArrayList<Project> ExecuteLoadProject(Context Context){
-		ArrayList<String> titles = new ArrayList<String>();
-		ArrayList<Project> lists = new ArrayList<Project>();
-		HttpPost post = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/project/getList");
+public class LoadUserInfoNetwork {
+	public UserInfo ExecuteLoadUserInfo(Context Context){
+		UserInfo User = new UserInfo();
+		HttpPost post = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getUserInfo");
 		DefaultHttpClient client = new DefaultHttpClient();
 		InputStream is = null;
 		@SuppressWarnings("unused")
@@ -46,7 +40,6 @@ public class LoadProjectNetwork {
 		cookieManager = CookieManager.getInstance();
 		BasicCookieStore cookieStore = new BasicCookieStore();
 		HttpContext localContext = new BasicHttpContext();
-		
 		localContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
 		String[] keyValueSets = CookieManager.getInstance().getCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin").split(";");
 		for(String cookie : keyValueSets){
@@ -82,12 +75,13 @@ public class LoadProjectNetwork {
 			is = response.getEntity().getContent();
 			message = convertStreamToString(is,Context);
 			JSONObject obj = new JSONObject(message);
-			JSONArray array = obj.getJSONArray("key");
-			//Toast.makeText(Context, String.valueOf(array.length()), Toast.LENGTH_SHORT).show();
-			ArrayList<String> keylist = new ArrayList<String>();
-			for(int i=0; i<array.length(); i++){
-				keylist.add(String.valueOf(array.getInt(i)));
-			}
+			JSONObject item = obj.getJSONObject("item");
+			//Toast.makeText(Context, String.valueOf(item.length()), Toast.LENGTH_SHORT).show();
+			User.setEmail(item.getString("email"));
+			User.setNickname(item.getString("nickname"));
+			User.setPimage(item.getString("pimage"));
+			User.setReg_date(item.getString("reg_date"));
+			/*
 			
 			JSONObject item = obj.getJSONObject("item");			
 			ArrayList<JSONObject> list = new ArrayList<JSONObject>();
@@ -98,13 +92,8 @@ public class LoadProjectNetwork {
 			titles = new ArrayList<String>();
 			for(int i=0; i<list.size(); i++){
 				titles.add(list.get(i).getString("title"));
-				Project p = new Project();
-				p.setPid(keylist.get(i).toString());
-				p.setTitle(list.get(i).getString("title"));
-				p.setDesc(list.get(i).getString("desc"));
-				p.setRlevel(list.get(i).getInt("rlevel"));
-				lists.add(p);
 			}
+			*/
 			/*
 			BufferedReader bufreader = new BufferedReader(new InputStreamReader(is,"utf-8"));
 			String line = null;
@@ -118,7 +107,7 @@ public class LoadProjectNetwork {
 			result = obj.getJSONArray("item");	
 			*/
 		}catch(Exception e){e.printStackTrace();}		
-		return lists;
+		return User;
 		
 	}
 	public static String convertStreamToString(InputStream is,Context context) 

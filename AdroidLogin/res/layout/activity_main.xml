@@ -1,24 +1,51 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#30AAA9"
+    android:background="@drawable/loginbackground"
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
     <ImageView
-        android:layout_width="120pt"
-        android:layout_height="180pt"
-        android:layout_marginTop="100dip"
-        android:layout_gravity="center"
-        android:src="@drawable/center_logo" />
+        android:id="@+id/imageView1"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/loginlogo" />
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="100dip"
+    <ImageView
+        android:id="@+id/loginbutton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingBottom="20dip"
-        android:text="login" />
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignRight="@+id/password"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/password"
+        android:clickable="true"
+        android:background="@drawable/loginbutton" />
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id"
+        android:layout_centerHorizontal="true"
+        android:background="#ffffff"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/pw"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/id"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="48dp"
+        android:background="#ffffff"
+        android:ems="10"
+        android:hint="@string/id" />
+
+</RelativeLayout>

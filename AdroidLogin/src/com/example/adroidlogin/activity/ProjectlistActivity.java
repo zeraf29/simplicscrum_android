@@ -1,7 +1,6 @@
 package com.example.adroidlogin.activity;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,27 +23,29 @@ import com.example.androidlogin.network.LoadProjectNetwork;
 import com.example.androidlogin.network.LoadUserInfoNetwork;
 
 public class ProjectlistActivity extends Activity /*implements DndListView.DragListener, DndListView.DropListener*/{
-	private ArrayList<String> data = new ArrayList<String>();
+	//private ArrayList<String> data = new ArrayList<String>();
 	//private ArrayList<Project> projects = new ArrayList<Project>();
 	private ListView lv;
 	//private boolean isDnd = false;
 	private ProjectAdapter mAdapter;
-	
-	public ProjectlistActivity(){
-		super();
-		data.add("testing");		
-	}
+	private TextView wellcomeUsername;
+	private UserInfo User;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.boardlist); 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.boardlist);  
+        
+        //ImageView logobar = (ImageView)findViewById(R.id.uplogobar);
         
         LoadProjectNetwork net = new LoadProjectNetwork();
-        ArrayList<Project> Plist = net.ExecuteLoadProject(getApplicationContext());           
-        
-       
-        
+        ArrayList<Project> Plist = net.ExecuteLoadProject(getApplicationContext());  
+        LoadUserInfoNetwork Usernet = new LoadUserInfoNetwork();
+		User = Usernet.ExecuteLoadUserInfo(getApplicationContext());
+		
+		wellcomeUsername = (TextView)findViewById(R.id.wellcome_username);
+		wellcomeUsername.setText(User.getNickname().toString());
         lv = (ListView) findViewById(R.id.project_list);
         
         mAdapter = new ProjectAdapter(this, R.layout.projectcard, Plist);
@@ -66,10 +68,9 @@ public class ProjectlistActivity extends Activity /*implements DndListView.DragL
 			View layout = inflater.inflate(R.layout.user_info_dialog, (ViewGroup)findViewById(R.id.uinfo_root));
 			TextView email = (TextView)layout.findViewById(R.id.uinfo_email);
 			TextView nickname = (TextView)layout.findViewById(R.id.nickname);
-			TextView reg_date = (TextView)layout.findViewById(R.id.reg_date);			
+			TextView reg_date = (TextView)layout.findViewById(R.id.reg_date);		
 			
-			LoadUserInfoNetwork net = new LoadUserInfoNetwork();
-			UserInfo User = net.ExecuteLoadUserInfo(mContext);
+			
 			email.setText(User.getEmail());
 			nickname.setText(User.getNickname());
 			reg_date.setText(User.getReg_date());

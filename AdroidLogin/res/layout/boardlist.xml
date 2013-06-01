@@ -1,11 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"   xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CE4F4F"
+    android:background="@drawable/projectbackground"
     android:orientation="vertical" >
-	<ListView
-	    android:id="@+id/project_list"
-	    android:layout_width="wrap_content"
-	    android:layout_height="fill_parent"
-	    />
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/uplogobar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/projectupbar" />
+    <RelativeLayout
+        android:id="@+id/wellcomebar"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/uplogobar"
+        android:background="@drawable/wellcomebar"
+        >
+
+    	<TextView
+    	    android:id="@+id/wellcometext"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_centerVertical="true"
+    	    android:layout_marginRight="26dp"
+    	    android:layout_toLeftOf="@+id/wellcome_username"
+    	    android:fontFamily="arial"
+    	    android:text="Welcome ▶" />
+
+    	<TextView
+    	    android:id="@+id/wellcome_username"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignParentRight="true"
+    	    android:layout_centerVertical="true"
+    	    android:layout_marginRight="50dp"
+    	    android:fontFamily="맑은고딕"
+    	    android:text="tester"
+    	    android:textColor="#ffffff"
+    	    android:textSize="8pt" />
+    
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/project_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wellcomebar" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/projectbotbar" />
+
+</RelativeLayout>

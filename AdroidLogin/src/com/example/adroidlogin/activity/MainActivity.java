@@ -27,15 +27,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.adroidlogin.R;
 
@@ -44,17 +46,88 @@ public class MainActivity extends Activity {
 	Button ok;
 	String message="";
 	String cookieString="";
+	ImageView Login;
 	
     @SuppressLint("NewApi")
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         
         CookieSyncManager.createInstance(getApplicationContext());
         CookieManager.getInstance().removeAllCookie();
-        CookieSyncManager.getInstance().startSync();        
+        CookieSyncManager.getInstance().startSync();
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+        .detectDiskReads()             
+        .detectDiskWrites()
+        .detectNetwork()              
+        .penaltyLog().build());
         
+        Login = (ImageView)findViewById(R.id.loginbutton);
+        Login.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				DefaultHttpClient http = new DefaultHttpClient();
+				try{
+					un = (EditText)findViewById(R.id.id);
+					pw = (EditText)findViewById(R.id.password);
+					ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+					postParameters.add(new BasicNameValuePair("email",un.getText().toString()));
+					postParameters.add(new BasicNameValuePair("pw",pw.getText().toString()));
+					
+					Log.i("1111111111111111", un.getText().toString()+pw.getText().toString());
+					HttpParams params = http.getParams();
+					HttpConnectionParams.setConnectionTimeout(params, 5000);
+					HttpConnectionParams.setSoTimeout(params, 5000);
+
+					Log.i("1111111111111111", "2222222222222222");
+					HttpClientParams.setRedirecting(params, false);
+					
+					HttpPost httpPost = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin");
+					UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(postParameters,"utf-8");
+					httpPost.setEntity(entityRequest);
+					HttpResponse responsePost = http.execute(httpPost);
+					Log.i("1111111111111111", "333333333333333");
+					CookieSyncManager.createInstance(getApplicationContext());
+					CookieManager cookieManager = CookieManager.getInstance();
+					List<Cookie> cookies = http.getCookieStore().getCookies();
+					if(!cookies.isEmpty()){
+						for(int i=0;i<cookies.size();i++){
+							cookieString = cookies.get(i).getName() + "="+ cookies.get(i).getValue();	
+							cookieManager.setCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin", cookieString);
+						}
+					}
+					
+					InputStream is = null;
+					is = responsePost.getEntity().getContent();
+					
+					message = convertStreamToString(is,getApplicationContext());
+					JSONObject json = new JSONObject(message);
+					String code = json.getString("code");					
+					if(code.equals("100")){						
+						Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent("android.intent.action.ProjectList");						
+						startActivity(intent);
+					}else if(code.equals("200")){
+						Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
+						AlertDialog.Builder aDialog = new AlertDialog.Builder(MainActivity.this);
+						aDialog.setTitle("로그인실패");
+						aDialog.setMessage("아이디나 비밀번호를 확인해주세요.");
+						aDialog.setPositiveButton("닫기", new DialogInterface.OnClickListener() {		
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub								
+							}
+						});
+						aDialog.show();						
+					}					
+				}catch(Exception e){e.printStackTrace();}
+			}        	
+        });
+        /*
         ok = (Button)findViewById(R.id.btn_login);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().build();
         StrictMode.setThreadPolicy(policy);
@@ -103,7 +176,6 @@ public class MainActivity extends Activity {
 									cookieString = cookies.get(i).getName() + "="+ cookies.get(i).getValue();	
 									cookieManager.setCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin", cookieString);
 								}
-								//Toast.makeText(getApplicationContext(), cookieManager.getCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin"), Toast.LENGTH_SHORT).show();
 							}
 							
 							InputStream is = null;
@@ -140,7 +212,8 @@ public class MainActivity extends Activity {
 				AlertDialog ad = aDialog.create();
 				ad.show();
 			}			   	
-        });				
+        });		
+        */		
     } 
 
    

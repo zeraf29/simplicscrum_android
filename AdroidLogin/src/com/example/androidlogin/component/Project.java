@@ -4,6 +4,13 @@ public class Project {
 	private String title;
 	private String desc;
 	private String access_key;
+	private String pid;
+	public String getPid() {
+		return pid;
+	}
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 	private boolean openpj;
 	private int rlevel;
 	
