@@ -22,11 +22,8 @@ import com.example.androidlogin.component.UserInfo;
 import com.example.androidlogin.network.LoadProjectNetwork;
 import com.example.androidlogin.network.LoadUserInfoNetwork;
 
-public class ProjectlistActivity extends Activity /*implements DndListView.DragListener, DndListView.DropListener*/{
-	//private ArrayList<String> data = new ArrayList<String>();
-	//private ArrayList<Project> projects = new ArrayList<Project>();
+public class ProjectlistActivity extends Activity {
 	private ListView lv;
-	//private boolean isDnd = false;
 	private ProjectAdapter mAdapter;
 	private TextView wellcomeUsername;
 	private UserInfo User;
@@ -36,9 +33,6 @@ public class ProjectlistActivity extends Activity /*implements DndListView.DragL
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.boardlist);  
-        
-        //ImageView logobar = (ImageView)findViewById(R.id.uplogobar);
-        
         LoadProjectNetwork net = new LoadProjectNetwork();
         ArrayList<Project> Plist = net.ExecuteLoadProject(getApplicationContext());  
         LoadUserInfoNetwork Usernet = new LoadUserInfoNetwork();
@@ -50,13 +44,9 @@ public class ProjectlistActivity extends Activity /*implements DndListView.DragL
         
         mAdapter = new ProjectAdapter(this, R.layout.projectcard, Plist);
         lv.setAdapter(mAdapter);
-        
-        //lstInfoType.setDragListener(this);
-		//lstInfoType.setDropListener(this);
     }
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menu.setQwertyMode(false);
         MenuItem m0 = menu.add(0,0,0,"회원정보 보기");
         return true;
@@ -89,27 +79,5 @@ public class ProjectlistActivity extends Activity /*implements DndListView.DragL
 			ad.show();
 		}
 		return true;
-	}
-	/*
-	public void drag(int from, int to) {
-		if(!isDnd){
-			isDnd = true;
-			Log.i("Drag and Drop : drag", "from : " + from + ", to : " + to);
-		}
-	}
-
-	public void drop(int from, int to) {
-		if(isDnd){
-			Log.i("Drag and Drop : drop", "from : " + from + ", to : " + to);
-			if(from == to)
-				return;
-			
-			String item = data.remove(from);
-			data.add(to, item);
-			
-			isDnd = false;
-			mAdapter.notifyDataSetChanged();
-		}
-	}
-	*/
+	}	
 }

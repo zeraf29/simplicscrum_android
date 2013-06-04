@@ -26,7 +26,6 @@ public class DoingFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		Log.v("CardListFragment", "create");
 		View view = inflater.inflate(R.layout.page_one_cardlist, null);
-		
 		mList = (ListView)view.findViewById(R.id.cardlist);
 		mList.setAdapter(new CardListAdapter(mContext,R.layout.simple_cardlist_item,createData()));
 		return view;		

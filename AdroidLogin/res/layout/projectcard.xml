@@ -23,18 +23,36 @@
         android:layout_toRightOf="@+id/pnarrow"
         android:fontFamily="arial"
         android:textColor="#FF4848"
-        android:text="testing..."
+        android:text="testing..."        
         android:textSize="10pt" />
 
     <ImageView
         android:id="@+id/member_icon"
         android:layout_width="27dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/pnarrow"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"       
+        android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
         android:clickable="true"
         android:src="@drawable/membericon" />
+
+    <RelativeLayout
+        android:id="@+id/membercloud"
+        android:layout_width="wrap_content"
+        android:layout_height="20pt"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_toLeftOf="@+id/member_icon"
+        android:background="@drawable/membercloud" >
+        <TextView
+            android:id="@+id/membertv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="맑은고딕"
+            android:paddingLeft="5dp"
+            android:text="나도일"
+            android:textColor="#ffffff"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

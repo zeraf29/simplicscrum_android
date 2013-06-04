@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -18,7 +17,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,7 +25,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,20 +74,17 @@ public class MainActivity extends Activity {
 					ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 					postParameters.add(new BasicNameValuePair("email",un.getText().toString()));
 					postParameters.add(new BasicNameValuePair("pw",pw.getText().toString()));
-					
-					Log.i("1111111111111111", un.getText().toString()+pw.getText().toString());
+										
 					HttpParams params = http.getParams();
 					HttpConnectionParams.setConnectionTimeout(params, 5000);
 					HttpConnectionParams.setSoTimeout(params, 5000);
 
-					Log.i("1111111111111111", "2222222222222222");
 					HttpClientParams.setRedirecting(params, false);
 					
 					HttpPost httpPost = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin");
 					UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(postParameters,"utf-8");
 					httpPost.setEntity(entityRequest);
 					HttpResponse responsePost = http.execute(httpPost);
-					Log.i("1111111111111111", "333333333333333");
 					CookieSyncManager.createInstance(getApplicationContext());
 					CookieManager cookieManager = CookieManager.getInstance();
 					List<Cookie> cookies = http.getCookieStore().getCookies();
