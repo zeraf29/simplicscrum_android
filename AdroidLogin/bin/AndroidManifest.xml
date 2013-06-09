@@ -27,9 +27,16 @@
             android:label="Project List">
             <intent-filter>
                 <action android:name="android.intent.action.ProjectList" />
-				<!-- asdfaf -->
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity 
+            android:name="com.example.adroidlogin.activity.BacklogActivity"
+            android:label="Backlog">            
+            <intent-filter>
+                <action android:name="android.intent.action.BacklogActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>    
         </activity>
     </application>
 

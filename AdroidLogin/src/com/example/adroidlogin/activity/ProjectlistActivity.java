@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,9 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.adroidlogin.R;
 import com.example.androidlogin.component.Project;
 import com.example.androidlogin.component.ProjectAdapter;
@@ -27,6 +29,7 @@ public class ProjectlistActivity extends Activity {
 	private ProjectAdapter mAdapter;
 	private TextView wellcomeUsername;
 	private UserInfo User;
+	private ArrayList<Project> Plist;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class ProjectlistActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.boardlist);  
         LoadProjectNetwork net = new LoadProjectNetwork();
-        ArrayList<Project> Plist = net.ExecuteLoadProject(getApplicationContext());  
+        Plist = net.ExecuteLoadProject(getApplicationContext());  
         LoadUserInfoNetwork Usernet = new LoadUserInfoNetwork();
 		User = Usernet.ExecuteLoadUserInfo(getApplicationContext());
 		
@@ -44,6 +47,17 @@ public class ProjectlistActivity extends Activity {
         
         mAdapter = new ProjectAdapter(this, R.layout.projectcard, Plist);
         lv.setAdapter(mAdapter);
+        lv.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent("android.intent.action.BacklogActivity");
+				intent.putExtra("pId", Plist.get(arg2).getPid().toString());
+				//Toast.makeText(getApplicationContext(), Plist.get(arg2).getPid(), Toast.LENGTH_SHORT).show();
+				startActivity(intent);
+			}        	
+        });
     }
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
