@@ -35,7 +35,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.example.adroidlogin.R;
 
 public class MainActivity extends Activity {
@@ -106,7 +105,6 @@ public class MainActivity extends Activity {
 						Intent intent = new Intent("android.intent.action.ProjectList");						
 						startActivity(intent);
 					}else if(code.equals("200")){
-						Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
 						AlertDialog.Builder aDialog = new AlertDialog.Builder(MainActivity.this);
 						aDialog.setTitle("로그인실패");
 						aDialog.setMessage("아이디나 비밀번호를 확인해주세요.");
@@ -121,93 +119,6 @@ public class MainActivity extends Activity {
 				}catch(Exception e){e.printStackTrace();}
 			}        	
         });
-        /*
-        ok = (Button)findViewById(R.id.btn_login);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().build();
-        StrictMode.setThreadPolicy(policy);
-        ok.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Context mContext = getApplicationContext();
-				LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
-				final View layout = inflater.inflate(R.layout.custom_dialog, (ViewGroup)findViewById(R.id.layout_root));
-				
-				AlertDialog.Builder aDialog = new AlertDialog.Builder(MainActivity.this);
-				aDialog.setTitle("로그인 하시겠습니까?");
-				aDialog.setView(layout);
-				
-				aDialog.setPositiveButton("로그인", new DialogInterface.OnClickListener() {					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						
-						un = (EditText)layout.findViewById(R.id.email);
-				        pw = (EditText)layout.findViewById(R.id.pw);
-				        
-						DefaultHttpClient http = new DefaultHttpClient();						
-						try{
-							ArrayList<NameValuePair> postParameters = new ArrayList<NameValuePair>();
-							postParameters.add(new BasicNameValuePair("email",un.getText().toString()));
-							postParameters.add(new BasicNameValuePair("pw",pw.getText().toString()));
-							
-							HttpParams params = http.getParams();
-							HttpConnectionParams.setConnectionTimeout(params, 5000);
-							HttpConnectionParams.setSoTimeout(params, 5000);
-							
-							HttpClientParams.setRedirecting(params, false);
-							
-							HttpPost httpPost = new HttpPost("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin");
-							UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(postParameters,"utf-8");
-							httpPost.setEntity(entityRequest);
-							HttpResponse responsePost = http.execute(httpPost);
-							
-							CookieSyncManager.createInstance(getApplicationContext());
-							CookieManager cookieManager = CookieManager.getInstance();
-							List<Cookie> cookies = http.getCookieStore().getCookies();
-							if(!cookies.isEmpty()){
-								for(int i=0;i<cookies.size();i++){
-									cookieString = cookies.get(i).getName() + "="+ cookies.get(i).getValue();	
-									cookieManager.setCookie("http://jinhyupkim.iptime.org/~sscrum/SimplicScrum/index.php/api/login/getLogin", cookieString);
-								}
-							}
-							
-							InputStream is = null;
-							is = responsePost.getEntity().getContent();
-							
-							message = convertStreamToString(is,getApplicationContext());
-							JSONObject json = new JSONObject(message);
-							String code = json.getString("code");					
-							if(code.equals("100")){						
-								Intent intent = new Intent("android.intent.action.ProjectList");						
-								startActivity(intent);
-							}else if(code.equals("200")){						
-								AlertDialog.Builder aDialog = new AlertDialog.Builder(MainActivity.this);
-								aDialog.setTitle("로그인실패");
-								aDialog.setMessage("아이디나 비밀번호를 확인해주세요.");
-								aDialog.setPositiveButton("닫기", new DialogInterface.OnClickListener() {		
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										// TODO Auto-generated method stub								
-									}
-								});
-								aDialog.show();						
-							}					
-						}catch(Exception e){e.printStackTrace();}
-					}
-				});
-				aDialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-				AlertDialog ad = aDialog.create();
-				ad.show();
-			}			   	
-        });		
-        */		
     } 
 
    
@@ -239,7 +150,6 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
     		}
     	}
-    	//Toast.makeText(context, sb.toString(), Toast.LENGTH_SHORT).show();
     	
     	return sb.toString();
     }
