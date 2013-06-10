@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/loginbutton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_alignLeft="@+id/password"
         android:layout_alignRight="@+id/password"
         android:layout_marginTop="5dp"

@@ -85,8 +85,7 @@ public class LoadUserInfoNetwork {
 			User.setNickname(item.getString("nickname"));
 			User.setPimage(item.getString("pimage"));
 			User.setReg_date(item.getString("reg_date"));
-			/*
-			
+			/*			
 			JSONObject item = obj.getJSONObject("item");			
 			ArrayList<JSONObject> list = new ArrayList<JSONObject>();
 			for(int i=0; i<keylist.size(); i++){
