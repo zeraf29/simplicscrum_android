@@ -34,7 +34,6 @@ import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 import com.example.adroidlogin.R;
 
 public class MainActivity extends Activity {
@@ -101,7 +100,6 @@ public class MainActivity extends Activity {
 					JSONObject json = new JSONObject(message);
 					String code = json.getString("code");					
 					if(code.equals("100")){						
-						Toast.makeText(getApplicationContext(), "성공", Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent("android.intent.action.ProjectList");						
 						startActivity(intent);
 					}else if(code.equals("200")){

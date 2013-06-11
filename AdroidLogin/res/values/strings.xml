@@ -6,5 +6,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="pw">PASSWORD</string>
     <string name="id">ID</string>
+    <string name="todocenter">TO DO</string>
+    <string name="todoright">DOING ▶</string>
+    <string name="doingleft">◀ TO DO</string>
+    <string name="doingright">DONE ▶</string>
+    <string name="doneleft">◀ DOING</string>
+    <string name="donecenter">DONE</string>
+    <string name="doingcenter">DOING</string>
 
 </resources>
